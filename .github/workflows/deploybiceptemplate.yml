@@ -1,5 +1,5 @@
 on:
-workflow_dispatch:
+push:
 branches:
 - main
 jobs:
@@ -15,9 +15,9 @@ jobs:
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
     - name: Deploy Bicep template
-run: |
-az group create --name myRG --location uksouth
-az deployment group create \
---resource-group myResourceGroup \
---template-file main.bicep \
---parameters storageAccountName=myStorageAccount
+      run: |
+        az group create --name myRG --location uksouth
+        az deployment group create \
+        --resource-group myResourceGroup \
+        --template-file main.bicep \
+        --parameters storageAccountName=myStorageAccount
