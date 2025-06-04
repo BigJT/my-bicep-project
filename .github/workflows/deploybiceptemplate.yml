@@ -1,0 +1,23 @@
+on:
+push:
+branches:
+- main
+jobs:
+  build:
+  runs-on: ubuntu-latest
+  steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+    - name: Set up Azure CLI
+      uses: azure/cli@v1
+    - name: Log in to Azure
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+    - name: Deploy Bicep template
+run: |
+az group create --name myRG --location uksouth
+az deployment group create \
+--resource-group myResourceGroup \
+--template-file main.bicep \
+--parameters storageAccountName=myStorageAccount
